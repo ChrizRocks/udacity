@@ -80,11 +80,11 @@
                         <tbody>
                         <tr th:each="note : ${notes}">
                             <td> <!--public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId)-->
-                                <button type="button" class="btn btn-success" th:onclick="javascript:showNoteModal( [[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]] )">Edit</button>
-                                <a class="btn btn-danger" th:href="${'/note/delete/'+ note.noteId}">Delete</a>
+                                <button id="editButton" type="button" class="btn btn-success" th:onclick="javascript:showNoteModal( [[${note.getNoteId()}]], [[${note.getNoteTitle()}]], [[${note.getNoteDescription()}]] )">Edit</button>
+                                <a id="deleteButton" class="btn btn-danger" th:href="${'/note/delete/'+ note.noteId}">Delete</a>
                             </td>
-                            <th scope="row" th:text="${note.noteTitle}"/>
-                            <td th:text="${note.noteDescription}" />
+                            <th id="noteTitleId" scope="row" th:text="${note.noteTitle}"/>
+                            <td id="noteTextId" th:text="${note.noteDescription}" />
                         </tr>
                         </tbody>
                     </table>
@@ -139,12 +139,12 @@
                         <tbody>
                         <tr th:each="credential : ${credentials}">
                             <td>
-                                <button type="button" class="btn btn-success" th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]],[[${credential.getUrl()}]],[[${credential.getUsername()}]],[[${encryptionService.decryptValue(credential.getPassword(),credential.getKey())}]])">Edit</button> <!-- ublic Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) -->
-                                <a class="btn btn-danger" th:href="${'/credential/delete/'+ credential.credentialId}">Delete</a>
+                                <button id="editCredentialButton" type="button" class="btn btn-success" th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]],[[${credential.getUrl()}]],[[${credential.getUsername()}]],[[${encryptionService.decryptValue(credential.getPassword(),credential.getKey())}]])">Edit</button> <!-- ublic Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) -->
+                                <a id="deleteCredentialButton" class="btn btn-danger" th:href="${'/credential/delete/'+ credential.credentialId}">Delete</a>
                             </td>
                             <th scope="row" th:text="${credential.url}">Example Credential URL</th>
                             <td th:text="${credential.username}">Example Credential Username</td>
-                            <td th:text="${credential.password}">Example Credential Password</td>
+                            <td id="credPassword" th:text="${credential.password}">Example Credential Password</td>
                         </tr>
                         </tbody>
                     </table>
@@ -163,15 +163,15 @@
                                 <form action="#" th:object="${credentials}" th:action="@{'/addCredentials'}" method="POST">
                                     <input type="hidden" name="credentialId" id="credential-id">
                                     <div class="form-group">
-                                        <label for="note-title" class="col-form-label">URL</label>
+                                        <label for="credential-url" class="col-form-label">URL</label>
                                         <input type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="note-title" class="col-form-label">Username</label>
+                                        <label for="credential-username" class="col-form-label">Username</label>
                                         <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="note-title" class="col-form-label">Password</label>
+                                        <label for="credential-password" class="col-form-label">Password</label>
                                         <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
                                     </div>
                                     <button id="credentialSubmit" type="submit" class="d-none"></button>
