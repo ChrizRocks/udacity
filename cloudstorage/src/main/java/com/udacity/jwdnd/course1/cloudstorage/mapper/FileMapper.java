@@ -26,22 +26,4 @@ public interface FileMapper {
 
     @Select("SELECT filename FROM FILES WHERE userid = #{userId} and filename = #{filename}")
     String duplicateFiles(Integer userId, String filename);
-
-
 }
-//    CREATE TABLE IF NOT EXISTS FILES (
-//        fileId INT PRIMARY KEY auto_increment,
-//        filename VARCHAR,
-//        contenttype VARCHAR,
-//        filesize VARCHAR,
-//        userid INT,
-//        filedata BLOB,
-//        foreign key (userid) references USERS(userid)
-//        );
-
-//    private Integer fileId;
-//    private String filename;
-//    private String contentType;
-//    private String filesize;
-//    private Integer userId;
-//    private Blob filedata;

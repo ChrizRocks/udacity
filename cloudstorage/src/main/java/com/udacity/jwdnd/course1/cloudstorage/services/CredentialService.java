@@ -44,9 +44,9 @@ public class CredentialService {
         return credentialMapper.updateCredential(credential);
     }
 
-    public Credential decodePassword(Integer credentialId){
-        return credentialMapper.findByCredetialId(credentialId);
-    }
+//   public Credential decodePassword(Integer credentialId){
+//        return credentialMapper.findByCredetialId(credentialId);
+//    }
 
     public int deleteCredential(Integer credentialId) {
         return credentialMapper.deleteCredential(credentialId);

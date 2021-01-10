@@ -46,12 +46,3 @@ public class Note {
     }
 }
 
-
-
-//    CREATE TABLE IF NOT EXISTS NOTES (
-//        noteid INT PRIMARY KEY auto_increment,
-//        notetitle VARCHAR(20),
-//    notedescription VARCHAR (1000),
-//    userid INT,
-//    foreign key (userid) references USERS(userid)
-//        );

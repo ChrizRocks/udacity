@@ -28,19 +28,4 @@ public class CreateNotesService {
     public int deleteNote(int noteId){
         return noteMapper.deleteNote(noteId);
     }
-
-    //public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId)
-
-//    @Select("SELECT * FROM NOTES WHERE userid=#{userid}")
-//    Note getNotes(int userid);
-//
-//    @Insert("INSERT INTO NOTES(notetitle, notedescription, userid) VALUES(#{notetitle},#{notedescription},#{userid})")
-//    @Options(useGeneratedKeys = true, keyProperty = "noteId")
-//    int insert(Note note);
-//
-//    @Update("UPDATE NOTES SET " + "notetitle = #{noteTitle}, notedescription = #{noteDescription}" + "WHERE noteid = #{noteId}")
-//    int updateNote(Note note);
-//
-//    @Delete("DELETE FROM NOTES WHERE noteid= #{noteId}")
-//    void deleteNote(int noteId);
 }

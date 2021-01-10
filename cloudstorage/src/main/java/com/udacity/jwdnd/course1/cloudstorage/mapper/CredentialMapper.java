@@ -29,20 +29,3 @@ public interface CredentialMapper {
     @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialId}")
     int deleteCredential(int credentialId);
 }
-
-//    CREATE TABLE IF NOT EXISTS CREDENTIALS (
-//        credentialid INT PRIMARY KEY auto_increment,
-//        url VARCHAR(100),
-//    username VARCHAR (30),
-//    key VARCHAR,
-//    password VARCHAR,
-//    userid INT,
-//    foreign key (userid) references USERS(userid)
-//        );
-
-//    private Integer credentialId;
-//    private String url;
-//    private String username;
-//    private String key;
-//    private String password;
-//    private Integer userId;

@@ -50,39 +50,6 @@ public class UploadController {
             model.addAttribute("message", fileUploadError);
             return "result";
         }
-//
-//        Integer user = userService.getUser(authentication.getName()).getUserId();
-//        byte[] bytes = ByteBuffer.allocate(8).putLong(fileUpload.getSize()).array();
-//
-//        String filesize = new String(bytes);
-//        System.out.println(filesize);
-//        byte[] fileData = fileUpload.getBytes();
-//
-//        if(fileData.length == 0){ //file is empty
-//            fileUploadError = "File is empty. Pleas try again.";
-//            return "result";
-//        }
-//
-//        if(fileUploadService.fileDuplicate(user, fileUpload.getName())) {//file already existing from that user
-//            fileUploadError = "File with that name already exists!";
-//            return "result";
-//        }
-//        //public File(String filename, String contentType, String filesize, Integer userId, byte[] filedata)
-//        File neuesFile = new File(fileUpload.getOriginalFilename(),fileUpload.getContentType(),filesize,user,fileData);
-//        int fileAdded = fileUploadService.addFile(neuesFile);
-//        if(fileAdded<1){
-//            fileUploadError = "Fileupload was not successful, please try again!";
-//        }
-//        if(fileUploadError==null){ //fileUpload successful
-//            model.addAttribute("fileUploadSuccess", true);
-//        } else {
-//            model.addAttribute("fileUploadError", fileUploadError);
-//        }
-//
-//
-//        //  List<File> files = fileUploadService.getUserFiles(user);
-//        //model.addAttribute("files", files);
-//        return "result";
     }
 
 }
