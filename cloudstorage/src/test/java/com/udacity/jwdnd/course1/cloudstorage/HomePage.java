@@ -35,9 +35,6 @@ public class HomePage {
         this.credentialsTab.click();
     }
     public void createNote(WebDriver driver, String title, String description) throws InterruptedException {
-
-        Thread.sleep(5000);
-
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].click()", notesTab);
         new WebDriverWait(driver, 5).until(ExpectedConditions.elementToBeClickable(addNoteBtn)).click();
@@ -45,4 +42,6 @@ public class HomePage {
         new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(noteDescriptionText)).sendKeys(description);
         noteSubmitBtn.click();
     }
+
 }
+
