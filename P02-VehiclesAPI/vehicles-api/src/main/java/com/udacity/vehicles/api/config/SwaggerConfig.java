@@ -17,11 +17,6 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-@ApiResponses(value = {
-        @ApiResponse(code=400, message = "This is a bad request, please follow the API documentation for tips."),
-        @ApiResponse(code=401, message = "Due to security constraints, you are DENIED!"),
-        @ApiResponse(code=500, message = "The server is down. Please lift him up.")
-})
 public class SwaggerConfig {
     @Bean
     public Docket api(){
