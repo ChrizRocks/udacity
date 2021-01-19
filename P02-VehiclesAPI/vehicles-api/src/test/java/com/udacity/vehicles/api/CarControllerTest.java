@@ -1,5 +1,7 @@
 package com.udacity.vehicles.api;
 
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -7,9 +9,8 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udacity.vehicles.client.maps.MapsClient;
 import com.udacity.vehicles.client.prices.PriceClient;
 import com.udacity.vehicles.domain.Condition;
@@ -19,10 +20,14 @@ import com.udacity.vehicles.domain.car.Details;
 import com.udacity.vehicles.domain.manufacturer.Manufacturer;
 import com.udacity.vehicles.service.CarService;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Collections;
+
+import org.apache.tools.ant.taskdefs.MacroDef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.objectweb.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +39,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 /**
  * Implements testing of the CarController class.
@@ -97,7 +109,8 @@ public class CarControllerTest {
          *   the whole list of vehicles. This should utilize the car from `getCar()`
          *   below (the vehicle will be the first in the list).
          */
-        mvc.perform(get("/cars/").accept(MediaType.APPLICATION_JSON_UTF8))
+        mvc.perform(get("/cars/")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
         verify(carService,times(1)).list();
@@ -151,6 +164,43 @@ public class CarControllerTest {
        verify(carService,times(1)).delete(2L);//verify car was deleted
     }
 
+
+    @Test
+    public void updateCar() throws Exception {
+        /*Car car = getCar();
+        Details details = car.getDetails();
+        details.setBody("Kombi");
+        details.setEngine("5.0L V12");
+        car.setDetails(details);
+
+        Car newCar = car;
+
+        mvc.perform(put(new URI("/cars/1"))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json.write(car).getJson()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.details.engine").value("5.0L V12"));
+*/
+        Car updateCar = getCar();
+        Details details = updateCar.getDetails();
+        LocalDateTime whatTimeIsIt = LocalDateTime.now();
+        details.setProductionYear(2021);
+        details.setMileage(0);
+        details.setEngine("5.0L V12");
+        updateCar.setDetails(details);
+        updateCar.setModifiedAt(whatTimeIsIt);
+        mvc.perform(
+                put(new URI("/cars/1"))
+                        .content(json.write(updateCar).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details.productionYear").value(updateCar.getDetails().getProductionYear()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details.mileage").value(updateCar.getDetails().getMileage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details.engine").value(updateCar.getDetails().getEngine()));
+    }
 
     /**
      * Creates an example Car object for use in testing.
