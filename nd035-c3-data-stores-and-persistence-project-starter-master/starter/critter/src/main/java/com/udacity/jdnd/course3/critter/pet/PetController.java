@@ -1,10 +1,12 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.user.UserController;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,14 @@ public class PetController {
 
     @Autowired
     CustomerService customerService;
+
+
+    @PostMapping("/{petId}")
+    public PetDTO savePetWithId(@RequestBody PetDTO petDTO){
+        Pet newPet = convertDTOtoPet(petDTO);
+        petRepository.save(newPet);
+        return petDTO;
+    }
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
@@ -64,7 +74,15 @@ public class PetController {
         retPet.setId(petDTO.getId());
         retPet.setBirthDate(petDTO.getBirthDate());
         retPet.setName(petDTO.getName());
-        retPet.setCustomer(customerService.findById(petDTO.getOwnerId()));
+        long ownerId = petDTO.getOwnerId();
+        System.out.println("###############################################");
+        System.out.println(ownerId);
+        try {
+            retPet.setCustomer(customerService.findById(petDTO.getOwnerId()));
+        } catch (ObjectNotFoundException e){
+            System.out.println("There can't be a pet without an owner.");
+            retPet.setCustomer(null);
+        }
         //retPet.setCustomer(customerRepository.find(pe));
         //retPet.setCustomer(petDTO.getOwnerId());
         //retPet.setCustomer(petDTO.getOwnerId());
