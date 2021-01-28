@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Users.
@@ -61,6 +62,7 @@ public class UserController {
         Customer foundCustomer = petService.getOwnerByPetId(petId);
         CustomerDTO retCustomer = new CustomerDTO();
         BeanUtils.copyProperties(foundCustomer,retCustomer);
+        retCustomer.setPetIds(foundCustomer.getPets().stream().map(Pet::getId).collect(Collectors.toList()));
         return retCustomer;
         //throw new UnsupportedOperationException();
     }

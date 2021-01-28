@@ -40,8 +40,8 @@ public class PetService {
     }
 
     public Customer getOwnerByPetId(Long petId){
-        Customer found = petRepository.findByPetId(petId);
-        return customerService.findById(found.getId());
+        Pet found = petRepository.findByPetId(petId);
+        return customerService.findById(found.getCustomer().getId());
     }
 
     public List<Pet> getAllPets(){

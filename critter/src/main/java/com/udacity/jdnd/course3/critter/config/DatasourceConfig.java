@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 public class DatasourceConfig {
 
     @Bean
-    @Primary
     @ConfigurationProperties(prefix = "com.udacity.datasource")
     public DataSource getDatasource(){
         DataSourceBuilder dsb = DataSourceBuilder.create();
