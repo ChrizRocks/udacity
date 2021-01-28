@@ -1,8 +1,11 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
+import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.repository.ScheduleRepository;
+import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,19 +26,38 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
         Schedule newSchedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO,newSchedule);
-        scheduleRepository.save(newSchedule);
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+        List<Employee> employeeList = new ArrayList<>();
+        if(employeeIds!=null) {
+            for (Long id : employeeIds) {
+                employeeList.add(employeeService.findById(id));
+            }
+        }
+        newSchedule.setEmployeeIds(employeeList);
+        scheduleService.saveSchedule(newSchedule);
+        scheduleDTO.setId(newSchedule.getId());
         return scheduleDTO;
     }
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        List<Schedule> tmp = scheduleRepository.findAll();
+        List<Schedule> tmp = scheduleService.getAllSchedules();
         List<ScheduleDTO> ret = new ArrayList<>();
-        BeanUtils.copyProperties(tmp,ret);
+        ScheduleDTO newSchedule;
+        if(tmp!=null) {
+            for (Schedule schedule : tmp) {
+                newSchedule = new ScheduleDTO();
+                BeanUtils.copyProperties(schedule, newSchedule);
+                ret.add(newSchedule);
+            }
+        }
         return ret;
         //throw new UnsupportedOperationException();
     }

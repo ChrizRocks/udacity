@@ -28,6 +28,22 @@ public class Schedule {
     @Column(name = "SCHEDULE_ACTIVITIES")
     private Set<EmployeeSkill> activities;
 
+    public Long getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(Long scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public List<Employee> getEmployeeIds() {
+        return employeeIds;
+    }
+
+    public void setEmployeeIds(List<Employee> employeeIds) {
+        this.employeeIds = employeeIds;
+    }
+
     public Long getId() {
         return scheduleId;
     }
