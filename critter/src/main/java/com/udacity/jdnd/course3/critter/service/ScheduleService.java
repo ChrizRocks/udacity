@@ -38,6 +38,10 @@ public class ScheduleService {
         }
     }
 
+    public List<Schedule> getScheduleForPet(Long petId){
+        return scheduleRepository.findByPetIds(petId);
+    }
+
 //    public List<Schedule> getScheduleForEmployee(long employeeId){
 //        return scheduleRepository.findByEmployee(employeeId);
 //    }

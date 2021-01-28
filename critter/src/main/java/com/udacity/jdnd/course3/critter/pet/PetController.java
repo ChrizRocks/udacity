@@ -88,8 +88,19 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
+        List<Pet> savedPets = petService.getAllPets();
+        List<PetDTO> ret = new ArrayList<>();
+        PetDTO tmp;
+        if(savedPets!=null) {
+            for (Pet pet : savedPets) {
+                tmp = new PetDTO();
+                BeanUtils.copyProperties(pet,tmp);
+                tmp.setOwnerId(pet.getCustomer().getId());
+                ret.add(tmp);
 
-        throw new UnsupportedOperationException();
+            }
+        }
+        return ret;
     }
 
     @GetMapping("/owner/{ownerId}")

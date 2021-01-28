@@ -44,7 +44,9 @@ public class PetService {
         return customerService.findById(found.getId());
     }
 
-
+    public List<Pet> getAllPets(){
+        return petRepository.findAll();
+    }
 
     public List<Pet> getPetsByOwnerId(Long ownerId){
         Customer savedCustomer = customerService.findById(ownerId);

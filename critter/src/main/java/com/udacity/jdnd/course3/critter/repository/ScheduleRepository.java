@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
-    List<Schedule> findByEmployeeIds(long employeeId);
-    List<Schedule> findByPetIds(long petId);
-    //List<Schedule> findByCustomerId(long customerId);
+    List<Schedule> findByEmployeeIds(Long employeeId);
+    List<Schedule> findByPetIds(Long petId);
+    //List<Schedule> findByCustomerId(Long customerId);
 }
