@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -52,9 +49,35 @@ public class ItemControllerTest {
         assertNotNull(response);
         assertEquals(200,response.getStatusCodeValue());
         List<Item> items = response.getBody();
-        assertNotNull(items);
-        assertEquals(1,items.size());
+        Optional<Item> savedItem =itemRepository.findById(1L);
+        assertNotNull(savedItem);
+        assertEquals(items.get(0).getId(),savedItem.get().getId());
+        //assertNotNull(items);
+        //assertEquals(1,items.size());
     }
+
+    @Test
+    public void verify_findById(){
+        ResponseEntity<Item> response = itemController.getItemById(1L);
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        Item item = response.getBody();
+        assertNotNull(item);
+        assertEquals("Round Widget", item.getName());
+        assertEquals(Long.valueOf(1),item.getId());
+
+    }
+
+    @Test
+    public void verify_findByName(){
+        ResponseEntity<List<Item>> response = itemController.getItemsByName("Round Widget");
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        Item item = response.getBody().get(0);
+        assertNotNull(item);
+        assertEquals("Round Widget",item.getName());
+    }
+
 
 //    private class ItemsList {
 //        private List<Item> items;

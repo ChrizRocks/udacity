@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.TestUtils;
+import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -32,6 +35,14 @@ public class UserControllerTest {
         TestUtils.injectObjects(userController, "userRepository", userRepository);
         TestUtils.injectObjects(userController, "cartRepository", cartRepository);
         TestUtils.injectObjects(userController, "bCryptPasswordEncoder", encoder);
+        Cart testCart = new Cart();
+        User testUser = new User();
+        testUser.setId(0);
+        testUser.setUsername("testUser");
+        testUser.setPassword("testPassword");
+        testUser.setCart(testCart);
+
+        when(userRepository.findById(0L)).thenReturn(java.util.Optional.of(testUser));
     }
 
     @Test
@@ -67,14 +78,13 @@ public class UserControllerTest {
 
     }
 
-//    @Test
-//    public void find_user_by_id(){
-//        User user = new User();
-//        user.setId(1);
-//        user.setPassword("testPassword");
-//        user.setUsername("test");
-//
-//        ResponseEntity<User> response = userController.createUser(user)
-//    }
+
+    @Test
+    public void find_user_by_id(){
+        Optional<User> response = userRepository.findById(0L);
+        assertNotNull(response);
+        assertEquals(0L,response.get().getId());
+
+    }
 
 }
