@@ -42,7 +42,7 @@ public class CartController {
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			log.error("Error with your cart, item '{}' not found.",item.get().getName());
+			log.error("Error with your cart, item not found");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();

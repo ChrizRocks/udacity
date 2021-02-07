@@ -67,7 +67,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .sign(HMAC512(SecurityConstants.SECRET.getBytes()));
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        log.info("JWT for user {} created.",((User) auth.getPrincipal()).getUsername());
+        log.info("JWT for user {} created.",( ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
     }
 
     @Override

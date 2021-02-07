@@ -36,23 +36,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationVerficationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.exceptionHandling()//new
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+//        http.exceptionHandling()//new
+//                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
     //new
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.parentAuthenticationManager(authenticationManagerBean())
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(bCryptPasswordEncoder);
+
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource(){
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource(){
+//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//        return source;
+//    }
 
     @Override
     @Bean

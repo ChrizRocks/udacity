@@ -45,6 +45,10 @@ public class OrderController {
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
+		if(order == null){
+			log.error("No items in Cart, can't place order.");
+			return ResponseEntity.badRequest().build();
+		}
 		orderRepository.save(order);
 		Cart emptyCart = new Cart();
 		emptyCart.setTotal(BigDecimal.valueOf(0));
